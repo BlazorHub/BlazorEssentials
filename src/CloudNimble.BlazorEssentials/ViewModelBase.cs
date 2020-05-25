@@ -59,24 +59,14 @@ namespace CloudNimble.BlazorEssentials
         }
 
         /// <summary>
-        /// A boolean signifying whether or not the ViewModel has loaded the required data.
+        /// A <see cref="LoadingStatus"/> specifying the current state of the required data for this ViewModel.
         /// </summary>
-        public bool IsLoaded { get; set; }
-
-        /// <summary>
-        /// A boolean signifying whether or not the ViewModel is presently in the middle of loading the required data.
-        /// </summary>
-        public bool IsLoading { get; set; }
+        public LoadingStatus LoadingStatus { get; set; }
 
         /// <summary>
         /// The injected <see cref="NavigationManager"/> instance for the ViewModel.
         /// </summary>
         public NavigationManager NavigationManager { get; internal set; }
-
-        /// <summary>
-        /// Allows the Blazor page to pass the StateHasChanged function back to the ViewModels so ViewModel operations can trigger state chamges.
-        /// </summary>
-        public Action StateHasChangedAction { get; set; } = () => { };
 
         #endregion
 
@@ -94,7 +84,7 @@ namespace CloudNimble.BlazorEssentials
             NavigationManager = navigationManager;
             HttpClient = httpClient;
             Configuration = configuration;
-            AppState = appState ?? (TAppState)new AppStateBase(navigationManager);
+            AppState = appState ?? (TAppState)new AppStateBase(navigationManager, httpClient);
             AllowedRoles = new List<string>();
         }
 
